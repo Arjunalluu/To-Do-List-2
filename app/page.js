@@ -24,7 +24,7 @@ export default function Home() {
 
   const fetchTodos = async () => {
     setLoading(true);
-    const res = await fetch("https://to-do-list-2-navy.vercel.app/");
+    const res = await fetch("https://to-do-list-2-navy.vercel.app/api/todos");
     const data = await res.json();
     if (data.success) setTodos(data.data);
     setLoading(false);
@@ -34,7 +34,7 @@ export default function Home() {
     e.preventDefault();
     if (!text.trim()) return;
     setLoading(true);
-    const res = await fetch("https://to-do-list-2-navy.vercel.app/", {
+    const res = await fetch("https://to-do-list-2-navy.vercel.app/api/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -53,7 +53,7 @@ export default function Home() {
 
   const deleteTodo = async (id) => {
     setLoading(true);
-    const res = await fetch("https://to-do-list-2-navy.vercel.app/", {
+    const res = await fetch("https://to-do-list-2-navy.vercel.app/api/todos", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
@@ -65,7 +65,7 @@ export default function Home() {
 
   const toggleCompleted = async (todo) => {
     setLoading(true);
-    const updated = await fetch("https://to-do-list-2-navy.vercel.app/", {
+    const updated = await fetch("https://to-do-list-2-navy.vercel.app/api/todos", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -97,7 +97,7 @@ export default function Home() {
 
   const saveEditing = async (id) => {
     setLoading(true);
-    const res = await fetch("https://to-do-list-2-navy.vercel.app/", {
+    const res = await fetch("https://to-do-list-2-navy.vercel.app/api/todos", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -120,7 +120,7 @@ export default function Home() {
     const completedTodos = todos.filter((t) => t.completed);
     await Promise.all(
       completedTodos.map((todo) =>
-        fetch("https://to-do-list-2-navy.vercel.app/", {
+        fetch("https://to-do-list-2-navy.vercel.app/api/todos", {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: todo._id }),
