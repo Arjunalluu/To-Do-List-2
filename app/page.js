@@ -137,7 +137,7 @@ export default function Home() {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setTodos(items);
-    // Note: To persist order, update an "order" field in your backend.
+    // To persist order, update an "order" field in your backend.
   };
 
   const filteredTodos = todos.filter((todo) => {
@@ -147,16 +147,16 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-500 via-fuchsia-500 to-indigo-500 flex flex-col items-center py-10 transition-colors duration-500 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-rose-500 via-fuchsia-500 to-indigo-500 flex flex-col items-center py-10 px-4 transition-colors duration-500 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900">
       {/* Header */}
-      <div className="w-full max-w-4xl px-6 flex justify-between items-center mb-8">
-        <h1 className="text-6xl font-extrabold drop-shadow-xl animate-fadeIn text-white">
+      <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center mb-8">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold drop-shadow-xl animate-fadeIn text-white text-center">
           Supercharged To‑Do List
         </h1>
         {mounted && (
           <button
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors shadow-lg"
+            className="mt-4 md:mt-0 flex items-center px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-full transition-colors shadow-lg"
           >
             {theme === "dark" ? (
               <>
@@ -176,30 +176,30 @@ export default function Home() {
       </div>
 
       {/* Add Task Form */}
-      <form onSubmit={addTodo} className="flex w-full max-w-4xl mb-8 space-x-2">
+      <form onSubmit={addTodo} className="w-full max-w-4xl mx-auto mb-8 space-y-4 sm:space-y-0 sm:flex sm:space-x-2">
         <input
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="What needs to be done?"
-          className="flex-grow px-4 py-3 rounded-l-lg border-none focus:outline-none text-gray-900 shadow-lg"
+          className="flex-grow px-4 py-3 rounded-t lg:rounded-l-lg rounded-b-none sm:rounded-b-none border-none focus:outline-none text-gray-900 shadow-lg"
         />
         <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          className="px-4 py-3 border border-gray-300 focus:outline-none shadow-lg"
+          className="w-full sm:w-auto px-4 py-3 border border-gray-300 focus:outline-none shadow-lg"
         />
         <button
           type="submit"
-          className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 font-bold rounded-r-lg transition-colors shadow-lg"
+          className="w-full sm:w-auto px-6 py-3 bg-yellow-500 hover:bg-yellow-600 font-bold rounded-b lg:rounded-r-lg transition-colors shadow-lg"
         >
           Add
         </button>
       </form>
 
       {/* Filter Buttons */}
-      <div className="flex space-x-4 mb-6 w-full max-w-4xl justify-center">
+      <div className="w-full max-w-4xl mx-auto flex flex-wrap justify-center gap-2 mb-6">
         {["all", "active", "completed"].map((f) => (
           <button
             key={f}
@@ -215,14 +215,16 @@ export default function Home() {
         ))}
       </div>
 
-      {loading && <p className="mb-4 text-xl text-white">Loading...</p>}
+      {loading && (
+        <p className="mb-4 text-xl text-white text-center">Loading...</p>
+      )}
 
       {/* Task List with Drag-and-Drop */}
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="todos">
           {(provided) => (
             <ul
-              className="w-full max-w-4xl space-y-4"
+              className="w-full max-w-4xl mx-auto space-y-4"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -233,9 +235,9 @@ export default function Home() {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className="bg-white bg-opacity-30 backdrop-blur-md p-4 rounded-lg shadow-2xl flex items-center justify-between transition transform hover:scale-105 animate-fadeIn"
+                      className="bg-white bg-opacity-30 backdrop-blur-md px-4 py-3 rounded-lg shadow-2xl flex flex-col sm:flex-row items-start justify-between transition transform hover:scale-105 animate-fadeIn"
                     >
-                      <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-4 mb-2 sm:mb-0">
                         <input
                           type="checkbox"
                           checked={todo.completed}
@@ -249,19 +251,19 @@ export default function Home() {
                                 type="text"
                                 value={editingText}
                                 onChange={(e) => setEditingText(e.target.value)}
-                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none shadow"
+                                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none shadow mb-1 sm:mb-0"
                               />
                               <input
                                 type="date"
                                 value={editingDueDate}
                                 onChange={(e) => setEditingDueDate(e.target.value)}
-                                className="ml-2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none shadow"
+                                className="ml-0 sm:ml-2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none shadow"
                               />
                             </>
                           ) : (
                             <div>
                               <p
-                                className={`text-xl ${
+                                className={`text-lg ${
                                   todo.completed
                                     ? "line-through text-gray-300"
                                     : "text-white"
@@ -271,15 +273,14 @@ export default function Home() {
                               </p>
                               {todo.dueDate && (
                                 <p className="text-sm text-gray-200">
-                                  Due:{" "}
-                                  {new Date(todo.dueDate).toLocaleDateString()}
+                                  Due: {new Date(todo.dueDate).toLocaleDateString()}
                                 </p>
                               )}
                             </div>
                           )}
                         </div>
                       </div>
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-2">
                         {editingId === todo._id ? (
                           <>
                             <button
@@ -323,14 +324,16 @@ export default function Home() {
       </DragDropContext>
 
       {todos.some((t) => t.completed) && (
-        <button
-          onClick={clearCompleted}
-          className="mt-8 px-8 py-3 bg-red-600 hover:bg-red-700 rounded-full transition-colors text-white shadow-xl"
-        >
-          Clear Completed
-        </button>
+        <div className="w-full max-w-4xl mx-auto flex justify-center">
+          <button
+            onClick={clearCompleted}
+            className="mt-8 px-8 py-3 bg-red-600 hover:bg-red-700 rounded-full transition-colors text-white shadow-xl"
+          >
+            Clear Completed
+          </button>
+        </div>
       )}
-      <p className="mt-6 text-white text-lg">
+      <p className="mt-6 text-white text-lg text-center">
         Total tasks: {todos.length} | Active:{" "}
         {todos.filter((t) => !t.completed).length}
       </p>
